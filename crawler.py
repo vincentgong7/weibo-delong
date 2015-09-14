@@ -15,6 +15,8 @@ import sys
 uid_list = []
 number_of_pages_to_crawl = -1
 start_crawl_uid = ''
+start_crawl_page = 1
+start_crawl_subpage = 1
 interval = 3
 
 def apiExample():
@@ -28,13 +30,13 @@ def simuLogin():
     # 模拟登陆的功能扩展待完善
     simu = Lweibo.simu()
 
-    print(len(uid_list))
+    # print(len(uid_list))
 
     getAllWeibo(uid_list,'output/')
     # print simu.detail('http://weibo.com/kaifulee')
 
 def getAllWeibo(uidList, outputFolder):
-    celia = Celestine(uidList, outputFolder, number_of_pages_to_crawl, interval)
+    celia = Celestine(uidList, outputFolder, number_of_pages_to_crawl, interval, start_crawl_page)
     celia.start()
 
 def get_uid(filename, start_uid = ''):
@@ -58,22 +60,21 @@ if __name__ == '__main__':
     start = timeit.default_timer()
 
     #python crawler.py number_of_pages_to_crawl start_crawl_uid interval
-    number_of_pages_to_crawl = 1
-    start_crawl_uid = ''
+    number_of_pages_to_crawl = -1
     interval = 1
+    start_crawl_uid = ''
+    start_crawl_page = 1
 
-    if len(sys.argv) == 4:
+    if len(sys.argv) == 6:
         number_of_pages_to_crawl = int(sys.argv[1])
-        start_crawl_uid = sys.argv[2]
-        interval = int(sys.argv[3])
+        interval = int(sys.argv[2])
+        start_crawl_uid = sys.argv[3]
+        start_crawl_page = sys.argv[4]
+        start_crawl_subpage = sys.argv[5]
 
     # uid file or specify the uid
     # uid_list = ['hngsjc,http://www.weibo.com/hngsjc?']
     get_uid('uid.txt', start_crawl_uid)
-
-    print number_of_pages_to_crawl
-    print start_crawl_uid
-    print interval
 
     simuLogin()
     stop = timeit.default_timer()

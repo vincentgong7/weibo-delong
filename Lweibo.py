@@ -180,6 +180,7 @@ class weibo_login(object):
             (2) If no cookies found then do login
         """
         # If cookie file exists then try to load cookies
+        print 'Try to login.'
         '''
         if os.path.exists(cookie_file):
             try:
@@ -200,7 +201,7 @@ class weibo_login(object):
             else:
                 return self.do_login(username, pwd, cookie_file)
 
-        else:  #If no cookies found '''
+        else:  #If no cookies found'''
         return self.do_login(username, pwd, cookie_file)
 
 
@@ -212,6 +213,7 @@ class weibo_login(object):
         @param cookie_file: file name where to save cookies when login succeeded
         """
         # POST data per LOGIN WEIBO, these fields can be captured using httpfox extension in FIrefox
+        print 'try to login with do_login()'
         login_data = {
             'entry': 'weibo',
             'gateway': '1',

@@ -5,23 +5,24 @@ import time
 from getWeiboPage import getWeiboPage
 
 class Celestine:
-     def __init__(self,uidList, outputFolder, wantpages, interval):
+     def __init__(self, uidList, outputFolder, wantpages, interval, startcrawlpage):
          self.uidList = uidList
          self.outputFolder = outputFolder
          self.wantpages = wantpages
          self.interval = interval
+         self.startcrawlpage = startcrawlpage
 
      def getTotalPost(self, html):
          tmp = re.findall(r"[0-9]+<\\/strong><span class=\\.S_txt2\\.>微博", html);
-         print html
+         # print html
          result = tmp[0][:tmp[0].index('<')]
-         print result
+         print ('Parsed total posts: ' + str(result))
          return result
 
      def getTotalPage(self, html):
          tmp = re.findall(r"page=[0-9]+#feedtop.. suda-uatrack=..key=tblog_profile_v6&value=weibo_page..>第&nbsp;[0-9]+&nbsp;页", html);
          result = tmp[0][5:tmp[0].index('#')]
-         print result
+         print ('Parsed total pages: ' + str(result))
          return result
 
      def writefile(self,filename,content):
@@ -61,16 +62,22 @@ class Celestine:
 
                  totalPages = 0
                  totalPages = int(self.getTotalPage(html3))
-                 if self.wantpages>0:
-                     if totalPages >= self.wantpages:
-                         totalPages = self.wantpages
 
-                 for page in range(2, totalPages+1):
+                 if self.startcrawlpage <3 or self.startcrawlpage > totalPages:
+                     self.startcrawlpage = 2
+
+                 if self.wantpages>0:
+                     if totalPages >= self.wantpages + self.startcrawlpage:
+                         totalPages = self.wantpages + self.startcrawlpage
+
+                 for page in range(self.startcrawlpage, totalPages+1):
                     gwp.body['pre_page'] = page-1;
                     gwp.body['page'] = page;
+                    print page
+                    '''
                     gwp.get_firstpage();
                     gwp.get_secondpage();
-                    gwp.get_thirdpage();
+                    gwp.get_thirdpage();'''
 
              except BaseException:
                  self.writefile('./fail_log.txt', uid)

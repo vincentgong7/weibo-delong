@@ -49,8 +49,8 @@ class getWeiboPage:
         req = urllib2.Request(url)
         result = urllib2.urlopen(req)
         text = result.read()
-        self.writefile(self.outputFolder + '/page'+ str(self.body['page'])+'-source1.txt',text)
-        self.writefile(self.outputFolder + '/page'+str(self.body['page'])+'-result1.txt',eval("u'''"+text+"'''"))
+        # self.writefile(self.outputFolder + '/page'+ str(self.body['page'])+'-source1.txt',text)
+        # self.writefile(self.outputFolder + '/page'+str(self.body['page'])+'-result1.txt',eval("u'''"+text+"'''"))
         self.writefile(self.outputFolder + '/page'+ str(self.body['page'])+'-json1.txt',json.dumps(Lweibo.jiexi(text)))
         return text
 
